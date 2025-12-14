@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import './assets/css/style.css'
 import './App.css'
+import Main from './components/Main'
+
 
 function App() {
 
   return (
     <>
-     
+     <Main/>
     </>
   )
 }
