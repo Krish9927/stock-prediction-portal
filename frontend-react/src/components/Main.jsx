@@ -5,7 +5,6 @@ import Footer from './Footer'
 const Main = () => {
   return (
     <>
-    <Header/>
     <div className="container">
     <div className="p-5 text-center bg-light-dark rounded snake-border mt-5">
         <h1 className=' text-light'>StockForecast Portal</h1>
@@ -18,7 +17,6 @@ const Main = () => {
     </div>
     </div>
     
-    <Footer/>
     </>
   )
 }
