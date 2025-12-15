@@ -7,14 +7,15 @@ import Register from './components/Register'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './components/Login'
-
+import AuthProvider from './components/AuthProvider'
 
 
 function App() {
 
   return (
     <>
-    <BrowserRouter>
+    <AuthProvider>
+        <BrowserRouter>
     <Header/>
      <Routes>
       <Route path ='/' element={<Main />} />
@@ -23,6 +24,7 @@ function App() {
      </Routes>
       <Footer/>
    </BrowserRouter>
+   </AuthProvider>
     </>
   )
 }
