@@ -8,8 +8,9 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import AuthProvider from './components/AuthProvider'
-
-
+import Dashboard from './components/dashboard/Dashboard'
+import PrivateRoutes from './components/PrivateRoutes'
+import PublicRoutes from './components/PublicRoutes'
 function App() {
 
   return (
@@ -19,8 +20,9 @@ function App() {
     <Header/>
      <Routes>
       <Route path ='/' element={<Main />} />
-      <Route path ='/register' element={<Register />} />
-      <Route path ='/login' element={<Login />} />
+      <Route path ='/register' element={<PublicRoutes><Register /></PublicRoutes>} />
+      <Route path ='/login' element={<PublicRoutes><Login /></PublicRoutes>} />
+      <Route path ='/dashboard' element={<PrivateRoutes><Dashboard /></PrivateRoutes>}  />
      </Routes>
       <Footer/>
    </BrowserRouter>

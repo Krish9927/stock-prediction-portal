@@ -13,7 +13,7 @@ const Main = () => {
           StockForecast is an AI-powered platform that provides real-time stock market predictions and insights. By analyzing historical data and market trends, it helps users make smarter, data-driven investment decisions with confidence and ease. It simplifies investing, guiding both beginners and experienced traders to maximize their financial potential.
           StockForecast also empowers investors to make informed decisions quickly, minimizing risks while maximizing potential returns. By combining cutting-edge AI technology with practical financial insights, it bridges the gap between complex stock market data and actionable investment strategies.
         </p>
-          <Button text='Login' class='btn-outline-info'/>
+          <Button text='Explore Now' class='btn-outline-info' url="/dashboard" />
     </div>
     </div>
     
