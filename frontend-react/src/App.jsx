@@ -17,6 +17,7 @@ function App() {
     <>
     <AuthProvider>
         <BrowserRouter>
+          <div className="min-h-screen flex flex-col">
     <Header/>
      <Routes>
       <Route path ='/' element={<Main />} />
@@ -25,6 +26,7 @@ function App() {
       <Route path ='/dashboard' element={<PrivateRoutes><Dashboard /></PrivateRoutes>}  />
      </Routes>
       <Footer/>
+      </div>
    </BrowserRouter>
    </AuthProvider>
     </>

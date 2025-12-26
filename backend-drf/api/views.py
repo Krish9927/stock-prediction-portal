@@ -118,6 +118,21 @@ class StockPredictionAPIView(APIView):
             rmse=np.sqrt(mse)
             #R-squared
             r2=r2_score(y_test,y_predicted)
+                        # fetch information from yfinanace
+            ticker = yf.Ticker(ticker)
+            info = ticker.info
+
+            company_data = {
+                "name": info.get("longName"),
+                "symbol": info.get("symbol"),
+                "sector": info.get("sector"),
+                "industry": info.get("industry"),
+                "market_cap": info.get("marketCap"),
+                "website": info.get("website"),
+                "description": info.get("longBusinessSummary")
+            }
+
+            print(company_data)
             return Response({'status':'success',
                              'plot_img':plot_img,
                              'plot_100_dma':plot_100_dma,
@@ -126,6 +141,7 @@ class StockPredictionAPIView(APIView):
                              'mse':mse,
                              'rmse':rmse,
                              'r2':r2,
+                             'company_data':company_data,
                              })
         
 

@@ -15,6 +15,7 @@ const Dashboard = () => {
   const[mse,setMse]=useState()
   const[rmse,setRMse]=useState()
   const[r2,setR2]=useState()
+  const[company_data,seData]=useState()
     useEffect(()=>{
         const fetchProtectedData=async ()=>{
             try{
@@ -49,7 +50,7 @@ const Dashboard = () => {
           setMse(response.data.mse);
           setRMse(response.data.rmse);
           setR2(response.data.r2);
-          
+          seData(response.data.company_data)
            if(response.data.error){
               setError(response.data.error)
             }
@@ -94,27 +95,54 @@ const Dashboard = () => {
 
         </form>
       </div>
+      {/* Information */}
+      
+      {company_data && (
+  <div className="text-white space-y-2 gap-1.5">
+    <p className='text-4xl mt-5'>{company_data.name} </p>
+    <p className='text-2xl'>Stock Ticker: {company_data.symbol}</p>
+    <p className='text-2xl'>Sector: {company_data.sector}</p>
+    <p className='text-2xl'>Industry: {company_data.industry}</p>
+    <p className='text-2xl'>Market Cap: ₹{company_data.market_cap}</p>
+    <p className='text-2xl'>
+      <b>Website:</b>{" "}
+      <a
+        href={company_data.website}
+        target="_blank"
+        className="text-blue-400 underline"
+      >
+        {company_data.website}
+      </a>
+    </p>
+    <p className="overflow-y-scroll h-80 text-gray-300 font-serif mx-auto gap-4 text-3xl">
+      {company_data.description}
+    </p>
+  </div>
+)}
+
+
       {/* {%print Prediction PLot%} */}
+
       {pred && (
            <div className="prediction mt-5">
         <div className="p-3">
           {plot && (
-            <img src={plot} alt="" style={{maxWidth:'100%'}} />
+            <img src={plot} class="invert" alt="" style={{maxWidth:'100%'}} />
           )}
         </div>
         <div className="p-3">
           {ma100 && (
-             <img src={ma100} alt="" style={{maxWidth:'100%'}} />
+             <img src={ma100} class="invert" alt="" style={{maxWidth:'100%'}} />
           )}
         </div>
         <div className="p-3">
           {ma100 && (
-             <img src={ma200} alt="" style={{maxWidth:'100%'}} />
+             <img src={ma200} class="invert" alt="" style={{maxWidth:'100%'}} />
           )}
         </div>
         <div className="p-3">
           {ma100 && (
-             <img src={pred} alt="" style={{maxWidth:'100%'}} />
+             <img src={pred} class="invert" alt="" style={{maxWidth:'100%'}} />
           )}
         </div>
         <div className="text-light p-3">

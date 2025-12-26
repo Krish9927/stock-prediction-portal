@@ -5,7 +5,7 @@ import Footer from './Footer'
 const Main = () => {
   return (
     <>
-    <div className="container">
+    <div className="container ">
     <div className="p-5 text-center bg-light-dark rounded snake-border mt-5">
         <h1 className=' text-light'>StockForecast Portal</h1>
         <h2 className=' text-light'>"Predicting stocks with smart analytics"</h2>
@@ -15,6 +15,7 @@ const Main = () => {
         </p>
           <Button text='Explore Now' class='btn-outline-info' url="/dashboard" />
     </div>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, beatae sint!</p>
     </div>
     
     </>
