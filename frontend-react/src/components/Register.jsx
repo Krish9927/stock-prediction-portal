@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-
+import Button from './Button'
 const Register = () => {
     const[username,SetUsername]=useState('')
     const[email,SetEmail]=useState('')
@@ -32,10 +32,12 @@ const Register = () => {
     }
   return (
     <>
+    
+      <div className="min-h-screen grid place-items-center bg-gray-900">
     <div className="container ">
         <div className="row justify-content-center">
             <div className="col-md-6 bg-light-dark snake-border p-5 rounded">
-                <h3 className='text-light text-center mb-4'>
+                <h3 className='text-2xl md:text-3xl font-semibold text-gray-100 text-center mb-6'>
                     Create an Account
                 </h3>
                 <form onSubmit={handleRegistration}>
@@ -53,6 +55,7 @@ const Register = () => {
                     </div>
                    
                     {success && <div className="alert alert-success"> Registration SuccessFul</div> }
+                   <div className="flex flex-col items-center gap-3">
                     {/* {loading && <div className="alert alert-warning"> Loading </div> } */}
                     {loading ? (
                         <button type='submit' className='btn btn-info d-block mx-auto' ><FontAwesomeIcon icon={faSpinner} spin /> Please Wait...</button>
@@ -61,10 +64,15 @@ const Register = () => {
                         <button type='submit' className='btn btn-info d-block mx-auto' >Register</button>
                         
                 )}
+                 <div className="flex items-center gap-1 text-white text-sm">Don't have an account? 
+                    <Button text='Register' class='btn-outline-info' url="/login" />
+                </div>
+                </div>
                 </form>
             </div>
         </div>
     </div>
+   </div>
     </>
   )
 }

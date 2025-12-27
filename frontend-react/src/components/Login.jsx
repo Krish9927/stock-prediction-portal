@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './AuthProvider'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-
+import Register from './Register'
+import Button from './Button'
 const Login = () => {
 const[username,SetUsername] =useState('')
 const[password,SetPassword]=useState('')
@@ -37,10 +38,11 @@ const {isLoggedIN,setIsLoggedIn} = useContext(AuthContext)
    }
   return (
       <>
+      <div className="min-h-screen grid place-items-center bg-gray-900">
     <div className="container ">
-        <div className="row justify-content-center">
-            <div className="col-md-6 bg-light-dark snake-border p-5 rounded">
-                <h3 className='text-light text-center mb-4'>
+        <div className="row justify-content-center ">
+            <div className="col-md-6 bg-light-dark snake-border p-5 rounded  ">
+                <h3 className='text-2xl md:text-3xl font-semibold text-gray-100 text-center mb-6'>
                     Login 
                 </h3>
                 <form onSubmit={handleLogin}>
@@ -55,17 +57,24 @@ const {isLoggedIN,setIsLoggedIn} = useContext(AuthContext)
                    {error && <div className='text-danger'>{error}</div> }
                    
                     {/* {loading && <div className="alert alert-warning"> Loading </div> } */}
-                    {loading ? (
-                        <button type='submit' className='btn btn-info d-block mx-auto' ><FontAwesomeIcon icon={faSpinner} spin /> Logging in..</button>
+                  <div className="flex flex-col items-center gap-3 ">
+                       {loading ? (
+                        <button type='submit' className='btn btn-info ' ><FontAwesomeIcon icon={faSpinner} spin /> Logging in..</button>
                     )
                     :(
-                        <button type='submit' className='btn btn-info d-block mx-auto' >Login</button>
+                        <button type='submit' className='btn btn-info  ' >Login</button>
                         
                 )}
+                <div className="flex items-center gap-1 text-white text-sm">Don't have an account? 
+                    <Button text='Register' class='btn-outline-info' url="/register" />
+                </div>
+                </div>
+ 
                 </form>
             </div>
         </div>
     </div>
+   </div>
     </>
   )
 }
