@@ -64,8 +64,8 @@ const Register = () => {
                         <button type='submit' className='btn btn-info d-block mx-auto' >Register</button>
                         
                 )}
-                 <div className="flex items-center gap-1 text-white text-sm">Don't have an account? 
-                    <Button text='Register' class='btn-outline-info' url="/login" />
+                 <div className="flex items-center gap-1 text-white text-sm">Have an account? 
+                    <Button text='Login' class='btn-outline-info' url="/login" />
                 </div>
                 </div>
                 </form>

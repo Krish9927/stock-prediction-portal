@@ -20,8 +20,8 @@ const Header = () => {
     <>
     <nav className=' navbar container pt-3 pb-3 align-items-start'>
        <div className="flex flex-col md:flex-row gap-0">
-     <Link className='navbar-brand text-light flex-row' to={'/'}> 
-       <div> <img src={logoimg} className='d-line-block align-text-top me-2 bg-amber-50' width="60" height="50" alt=""  /></div>
+     <Link className='navbar-brand text-light ' to={'/'}> 
+       <div> <img srcSet={logoimg} className='d-line-block align-text-top me-2 bg-amber-50' width="60" height="50" alt=""  /></div>
         <p>StockForecast</p></Link>
 </div>
      <div>

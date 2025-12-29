@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import StockPredictionSerializer
+from .serializers import TopStockSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import yfinance as yf
@@ -14,6 +15,7 @@ from .utils import save_plot
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 from sklearn.metrics import mean_squared_error,r2_score
+import requests
 # Create your views here.
 class StockPredictionAPIView(APIView):
     def post(self,request):
@@ -143,5 +145,91 @@ class StockPredictionAPIView(APIView):
                              'r2':r2,
                              'company_data':company_data,
                              })
-        
+
+
+class Top10ActiveStocksAPIView(APIView):
+    def post(self,request):
+        serializer=TopStockSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        number=serializer.validated_data['number']
+        return Response({
+            'message':'Number recieved successfully',
+            'number':number
+        })
+    def get(self, request):
+        number=request.query_params.get('number')
+        if not number:
+            return Response({'error':'number is required'},status=400)
+        try:
+            number=int(number)
+        except ValueError:
+            return Response({'error':'number must br an integer'},status=400)
+        headers = {"User-Agent": "Mozilla/5.0"}
+        url = (
+            f"https://query2.finance.yahoo.com/v1/finance/screener/predefined/saved?count={number}&scrIds=most_actives"
+        )
+
+        try:
+          response = requests.get(url, headers=headers, timeout=10)
+          response.raise_for_status()
+        except requests.RequestException as e:
+            print("Yahoo Global Error:", e)
+            return Response(
+               {"error": "Yahoo Finance service unavailable"},
+               status=status.HTTP_503_SERVICE_UNAVAILABLE
+                )
+
+        data = response.json()
+        quotes = (
+            data.get("finance", {})
+                .get("result", [{}])[0]
+                .get("quotes", [])
+        )
+
+        stocksglobal = []
+        for q in quotes:
+            stocksglobal.append({
+                "symbol": q.get("symbol"),
+                "name": q.get("shortName", "No Name"),
+                "price": q.get("regularMarketPrice"),
+                "change_percent": q.get("regularMarketChangePercent"),
+                "volume": q.get("regularMarketVolume"),
+            })
+        ourcountry_url = (
+            f"https://query2.finance.yahoo.com/v1/finance/screener/predefined/saved?count={number}&scrIds=most_actives_in"
+        )
+        try:
+           india_res = requests.get(ourcountry_url, headers=headers, timeout=10)
+           india_res.raise_for_status()
+        except requests.RequestException as e:
+           print("Yahoo India Error:", e)
+           return Response(
+            {"error": "Yahoo India service unavailable"},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+             )   
+        india_data=india_res.json()
+        india_quotes=(
+            india_data.get('finance',{})
+                      .get('result',[{}])[0]
+                      .get('quotes',[])    
+        )
+        india=[
+             {
+             'symbol':q.get('symbol'),
+             'name':q.get('shortName','No Name'),
+             'price':q.get('regularMarketPrice'),
+             'change_percent':q.get('regularMarketChangePercent'),
+             'volume':q.get('regularMarketVolume'),
+             }
+             for q in india_quotes
+         ]   
+        print(stocksglobal)  
+        return Response(
+            {"top100_worldwide": stocksglobal,
+             'Indiatop20':india,
+             },
+
+            status=status.HTTP_200_OK
+        )
+
 

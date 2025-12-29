@@ -14,7 +14,7 @@ const Footer = () => {
           
           {/* Brand */}
           <div>
-             <img src={logoimg} className='h-20 w-auto object-contain' alt="" srcset="" />
+             <img src={logoimg} className='h-20 w-auto object-contain' alt=""  />
             <h2 className="text-2xl font-bold text-white">StockForecast</h2>
             <p className="mt-3 text-sm text-gray-400">
               AI-powered stock analysis & prediction platform for smarter
