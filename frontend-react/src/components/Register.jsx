@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { Link,useNavigate } from 'react-router-dom'
 import Button from './Button'
 const Register = () => {
     const[username,SetUsername]=useState('')
@@ -66,6 +67,9 @@ const Register = () => {
                 )}
                  <div className="flex items-center gap-1 text-white text-sm">Have an account? 
                     <Button text='Login' class='btn-outline-info' url="/login" />
+                     
+                      <Link className='navbar-brand text-light ' to={'/'}> 
+                        <button className='border-4 btn-info '>Home</button></Link>
                 </div>
                 </div>
                 </form>

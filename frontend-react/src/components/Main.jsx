@@ -66,76 +66,85 @@ const Main = () => {
           />
         </div>
       </div>
-                    <div className="w-fit items-center ml-72">
-      <form onSubmit={fetchtopStock} >
-        <h1 className="text-center text-3xl font-bold text-gray-400 mt-80">Enter Number(MAX=200) for Top Active Stock</h1>
-          <div className="input-group google-search">
-          <input
-            type="number"
-            min="1"
-            className=" form-control "
-            placeholder="Enter Numeric Value to Get top stock"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-          />
-          {loading ? (
-            <button type="submit" className="btn btn-info ">
-              <FontAwesomeIcon icon={faSpinner} spin /> Loading ..
-            </button>
-          ) : (
-            <button type="submit"  className="btn btn-info  ">
-              Go
-            </button>
-          )}
-        </div>
-      </form>
-        <div className="flex gap-4 p-4">
-      {topglobal ? (
-        <div className="flex-1 bg-gray-400 text-white text-center p-4 rounded min-h-96">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4 ">
-            Top {number} Most Active Stocks (Global)
-          </h1>
-          {error && <p className="text-red-600">{error}</p>}
-          <ul className="text-left text-gray-900 space-y-2 overflow-y-scroll max-h-100">
-            {topstock.map((stock, index) => (
-              <li key={index} className="bg-white rounded p-2">
-                <b>
-                  {index + 1}. {stock.symbol}
-                </b>{" "}
-                — {stock.name}
-                <div>Price: {stock.price}</div>
-                <div>Change: {stock.change_percent?.toFixed(2)}%</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        )
-      :
-        (<div className="text-red">{error}</div> )}
-   
-{topind ? (
-        <div className="flex-1 bg-gray-400 text-white text-center p-4 rounded">
-          <h1 className="text-4xl font-bold text-gray-900 leading-tight tracking-tight mb-4">
-            Top {number} Stock Most Acitve Stock India
-          </h1>
-          {error && <p className="text-red-600">{error}</p>}
-          <ul className="text-left text-gray-900 space-y-2 overflow-y-scroll max-h-100">
-            {indtopstock.map((stock, index) => (
-              <li key={index} className="bg-white rounded p-2">
-                <b>
-                  {index + 1}. {stock.symbol}
-                </b>{" "}
-                — {stock.name}
-                <div>Price: {stock.price}</div>
-                <div>Change: {stock.change_percent?.toFixed(2)}%</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-          ): 
-        (<div className="text-red">{error}</div> )}
-        </div>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-start px-4">
+
+  {/* FORM SECTION */}
+  <form
+    onSubmit={fetchtopStock}
+    className="w-full max-w-xl mt-24 text-center"
+  >
+    <h1 className="text-3xl font-bold text-gray-400 mb-6">
+      Enter Number (MAX = 200) for Top Active Stock
+    </h1>
+
+    <div className="flex items-center gap-2 justify-center">
+      <input
+        type="number"
+        min="1"
+        className="w-full px-4 py-2 text-gray-400 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Enter Numeric Value to Get top stock"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+      />
+
+      <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        {loading ? (
+          <>
+            <FontAwesomeIcon icon={faSpinner} spin /> Loading..
+          </>
+        ) : (
+          "Go"
+        )}
+      </button>
+    </div>
+  </form>
+
+  {/* RESULT SECTION */}
+  <div className="w-full max-w-6xl mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    {topglobal && (
+      <div className="bg-gray-400 text-white p-4 rounded min-h-96">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+          Top {number} Most Active Stocks (Global)
+        </h1>
+
+        {error && <p className="text-red-600">{error}</p>}
+
+        <ul className="text-gray-900 space-y-2 overflow-y-auto max-h-96">
+          {topstock.map((stock, index) => (
+            <li key={index} className="bg-white rounded p-2">
+              <b>{index + 1}. {stock.symbol}</b> — {stock.name}
+              <div>Price: {stock.price}</div>
+              <div>Change: {stock.change_percent?.toFixed(2)}%</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {topind && (
+      <div className="bg-gray-400 text-white p-4 rounded min-h-96">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+          Top {number} Most Active Stocks (India)
+        </h1>
+
+        {error && <p className="text-red-600">{error}</p>}
+
+        <ul className="text-gray-900 space-y-2 overflow-y-auto max-h-96">
+          {indtopstock.map((stock, index) => (
+            <li key={index} className="bg-white rounded p-2">
+              <b>{index + 1}. {stock.symbol}</b> — {stock.name}
+              <div>Price: {stock.price}</div>
+              <div>Change: {stock.change_percent?.toFixed(2)}%</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+  </div>
+</div>
+
       <div className="p-5 text-center bg-light-dark rounded  mt-5 text-white">
         TRENDY NEWS <hr />
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam qui

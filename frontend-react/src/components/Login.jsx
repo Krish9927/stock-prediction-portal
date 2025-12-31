@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Register from './Register'
 import Button from './Button'
+import { Link } from 'react-router-dom'
 const Login = () => {
 const[username,SetUsername] =useState('')
 const[password,SetPassword]=useState('')
@@ -67,9 +68,10 @@ const {isLoggedIN,setIsLoggedIn} = useContext(AuthContext)
                 )}
                 <div className="flex items-center gap-1 text-white text-sm">Don't have an account? 
                     <Button text='Register' class='btn-outline-info' url="/register" />
+                    <Link className='navbar-brand text-light ' to={'/'}> 
+                        <button className='border-4 btn-info '>Home</button></Link>
                 </div>
                 </div>
- 
                 </form>
             </div>
         </div>
