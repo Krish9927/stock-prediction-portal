@@ -1,171 +1,320 @@
-import React, { useState, useEffect } from "react";
-import Button from "./Button";
-import axiosInstance from "../axiosinstancs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import axiosInstance from '../axiosinstancs'
+import { RiStockLine } from 'react-icons/ri'
+import { MdTrendingUp, MdBarChart, MdInsights, MdSecurity } from 'react-icons/md'
+import { FaGlobe, FaIndianRupeeSign } from 'react-icons/fa6'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { BsGraphUpArrow } from 'react-icons/bs'
+
+const features = [
+  {
+    icon: <MdInsights className="text-3xl text-cyan-400" />,
+    title: 'LSTM Predictions',
+    desc: 'Deep learning model trained on 10 years of historical data for accurate price forecasting.',
+  },
+  {
+    icon: <MdBarChart className="text-3xl text-indigo-400" />,
+    title: 'Moving Averages',
+    desc: '100-day and 200-day moving average charts generated instantly for any ticker.',
+  },
+  {
+    icon: <MdTrendingUp className="text-3xl text-emerald-400" />,
+    title: 'Model Metrics',
+    desc: 'MSE, RMSE and R² scores so you can evaluate prediction confidence at a glance.',
+  },
+  {
+    icon: <MdSecurity className="text-3xl text-violet-400" />,
+    title: 'Secure Access',
+    desc: 'JWT authentication with silent token refresh keeps your session safe.',
+  },
+]
+
+const stats = [
+  { value: '10+', label: 'Years of Data' },
+  { value: 'LSTM', label: 'Deep Learning' },
+  { value: 'MSE / R²', label: 'Model Metrics' },
+  { value: '200+', label: 'Stocks Supported' },
+]
+
 const Main = () => {
-  const [topstock, setTopStock] = useState([]);
-  const [indtopstock, setIndTopStock] = useState([]);
-  const [number, setNumber] = useState();
-  const[loading,setLoading]=useState(false)
-  const[topglobal,setTopGlobal]=useState(false)
-  const[topind,setTopInd]=useState(false)
-  const [error, setError] = useState(null);
+  const [topstock, setTopStock] = useState([])
+  const [indtopstock, setIndTopStock] = useState([])
+  const [number, setNumber] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [fetched, setFetched] = useState(false)
 
-    const fetchtopStock = async (e) => {
-     e.preventDefault();
-     if(!number){
-      setError('Please Enter Number');
-      return;
-     }
-      try {
-        setLoading(true)
-        setError(null)
-        const res = await axiosInstance.get("/top-stocks/",{
-          params:{
-            number:number,
-          }
-        });
-        setTopStock(res.data.top100_worldwide);
-        console.log(res.data);
-        setIndTopStock(res.data.Indiatop20);
-        setTopGlobal(true)
-        setTopInd(true)
-      } catch (error) {
-        setError("Failed to load due to server error");
-      }
-      finally{
-        setLoading(false)
-      }
-    };
+  const fetchtopStock = async (e) => {
+    e.preventDefault()
+    if (!number) { setError('Please enter a number'); return }
+    try {
+      setLoading(true)
+      setError(null)
+      const res = await axiosInstance.get('/top-stocks/', { params: { number } })
+      setTopStock(res.data.top100_worldwide)
+      setIndTopStock(res.data.Indiatop20)
+      setFetched(true)
+    } catch {
+      setError('Failed to load — server error. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <>
-      <div className="container mb-11">
-        <div className="p-5 text-center bg-light-dark rounded snake-border mt-5">
-          <h1 className=" text-light">StockForecast Portal</h1>
-          <h2 className=" text-light">
-            "Predicting stocks with smart analytics"
-          </h2>
-          <p className="text-light lead">
-            StockForecast is an AI-powered platform that provides real-time
-            stock market predictions and insights. By analyzing historical data
-            and market trends, it helps users make smarter, data-driven
-            investment decisions with confidence and ease. It simplifies
-            investing, guiding both beginners and experienced traders to
-            maximize their financial potential. StockForecast also empowers
-            investors to make informed decisions quickly, minimizing risks while
-            maximizing potential returns. By combining cutting-edge AI
-            technology with practical financial insights, it bridges the gap
-            between complex stock market data and actionable investment
-            strategies.
+    <div className="w-full bg-base-100">
+
+      {/* ── Hero ─────────────────────────────────────── */}
+      <section className="w-full py-24 px-4 text-center bg-base-100 overflow-hidden relative">
+        {/* decorative blobs — clipped inside section */}
+        <div
+          className="pointer-events-none absolute rounded-full"
+          style={{
+            width: 500, height: 500,
+            background: 'radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%)',
+            top: -100, left: -150,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute rounded-full"
+          style={{
+            width: 400, height: 400,
+            background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)',
+            bottom: -100, right: -100,
+          }}
+        />
+
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 text-cyan-400 text-sm font-medium mb-8">
+            <RiStockLine className="text-base" />
+            AI-Powered Stock Analysis
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-base-content leading-tight mb-6">
+            Predict Stocks with{' '}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+            >
+              Machine Learning
+            </span>
+          </h1>
+
+          <p className="text-base-content/60 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+            StockForecast uses LSTM neural networks to analyse 10 years of market data
+            and deliver accurate price predictions — for any stock, anywhere in the world.
           </p>
-          <Button
-            text="Explore Now"
-            class="btn-outline-info"
-            url="/dashboard"
-          />
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/dashboard"
+              className="btn btn-lg gap-2 text-white border-none shadow-lg hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+            >
+              <BsGraphUpArrow />
+              Start Predicting
+            </Link>
+            <a
+              href="#top-stocks"
+              className="btn btn-lg btn-outline border-base-content/20 text-base-content hover:border-cyan-400 hover:text-cyan-400 hover:bg-transparent"
+            >
+              View Live Stocks
+            </a>
+          </div>
         </div>
-      </div>
-    <div className="min-h-screen flex flex-col items-center justify-start px-4">
+      </section>
 
-  {/* FORM SECTION */}
-  <form
-    onSubmit={fetchtopStock}
-    className="w-full max-w-xl mt-24 text-center"
-  >
-    <h1 className="text-3xl font-bold text-gray-400 mb-6">
-      Enter Number (MAX = 200) for Top Active Stock
-    </h1>
+      {/* ── Stats bar ────────────────────────────────── */}
+      <section className="w-full border-y border-base-content/10 bg-base-200">
+        <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {stats.map((s) => (
+            <div key={s.label}>
+              <p className="text-2xl font-bold text-cyan-400">{s.value}</p>
+              <p className="text-sm text-base-content/50 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-    <div className="flex items-center gap-2 justify-center">
-      <input
-        type="number"
-        min="1"
-        className="w-full px-4 py-2 text-gray-400 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        placeholder="Enter Numeric Value to Get top stock"
-        value={number}
-        onChange={(e) => setNumber(e.target.value)}
-      />
+      {/* ── Features ─────────────────────────────────── */}
+      <section className="w-full py-20 px-4 bg-base-100">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-base-content mb-2">
+            Everything you need
+          </h2>
+          <p className="text-center text-base-content/50 mb-12 text-sm">
+            Powerful tools wrapped in a clean, fast interface.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {features.map((f) => (
+              <div
+                key={f.title}
+                className="card bg-base-200 border border-base-content/10 hover:border-cyan-400/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="card-body gap-3 p-5">
+                  <div className="w-12 h-12 rounded-xl bg-base-300 flex items-center justify-center">
+                    {f.icon}
+                  </div>
+                  <h3 className="font-semibold text-base-content text-sm">{f.title}</h3>
+                  <p className="text-xs text-base-content/50 leading-relaxed">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        {loading ? (
-          <>
-            <FontAwesomeIcon icon={faSpinner} spin /> Loading..
-          </>
-        ) : (
-          "Go"
-        )}
-      </button>
+      {/* ── Top Stocks ───────────────────────────────── */}
+      <section id="top-stocks" className="w-full py-20 px-4 bg-base-200">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-base-content mb-2">
+            Live Active Stocks
+          </h2>
+          <p className="text-center text-base-content/50 mb-10 text-sm">
+            Fetch the most traded stocks right now — globally and in India.
+          </p>
+
+          {/* Form */}
+          <form
+            onSubmit={fetchtopStock}
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-12"
+          >
+            <input
+              type="number"
+              min="1"
+              max="200"
+              className="input input-bordered flex-1 bg-base-100 focus:border-cyan-400 focus:outline-none"
+              placeholder="How many stocks? (max 200)"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn text-white border-none hover:opacity-90 min-w-24"
+              style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+            >
+              {loading
+                ? <AiOutlineLoading3Quarters className="animate-spin text-lg" />
+                : 'Fetch'}
+            </button>
+          </form>
+
+          {error && (
+            <div className="alert alert-error max-w-md mx-auto mb-8 text-sm">
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Tables */}
+          {fetched && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              {/* Global */}
+              <div className="card bg-base-100 border border-base-content/10 shadow-md overflow-hidden">
+                <div className="flex items-center gap-2 px-5 py-4 border-b border-base-content/10 bg-base-200">
+                  <FaGlobe className="text-cyan-400" />
+                  <h3 className="font-semibold text-base-content text-sm">
+                    Top {number} — Global
+                  </h3>
+                </div>
+                <div className="overflow-y-auto max-h-80">
+                  <table className="table table-zebra table-sm w-full">
+                    <thead className="sticky top-0 bg-base-200 z-10">
+                      <tr className="text-base-content/50 text-xs uppercase">
+                        <th>#</th>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {topstock.map((s, i) => (
+                        <tr key={i} className="hover">
+                          <td className="text-base-content/30 text-xs w-8">{i + 1}</td>
+                          <td>
+                            <div className="font-semibold text-cyan-400 text-xs">{s.symbol}</div>
+                            <div className="text-xs text-base-content/40 truncate max-w-[120px]">{s.name}</div>
+                          </td>
+                          <td className="text-xs font-medium">${s.price}</td>
+                          <td>
+                            <span className={`badge badge-xs ${s.change_percent >= 0 ? 'badge-success' : 'badge-error'}`}>
+                              {s.change_percent >= 0 ? '+' : ''}{s.change_percent?.toFixed(2)}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* India */}
+              <div className="card bg-base-100 border border-base-content/10 shadow-md overflow-hidden">
+                <div className="flex items-center gap-2 px-5 py-4 border-b border-base-content/10 bg-base-200">
+                  <FaIndianRupeeSign className="text-indigo-400" />
+                  <h3 className="font-semibold text-base-content text-sm">
+                    Top {number} — India
+                  </h3>
+                </div>
+                <div className="overflow-y-auto max-h-80">
+                  <table className="table table-zebra table-sm w-full">
+                    <thead className="sticky top-0 bg-base-200 z-10">
+                      <tr className="text-base-content/50 text-xs uppercase">
+                        <th>#</th>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {indtopstock.map((s, i) => (
+                        <tr key={i} className="hover">
+                          <td className="text-base-content/30 text-xs w-8">{i + 1}</td>
+                          <td>
+                            <div className="font-semibold text-indigo-400 text-xs">{s.symbol}</div>
+                            <div className="text-xs text-base-content/40 truncate max-w-[120px]">{s.name}</div>
+                          </td>
+                          <td className="text-xs font-medium">₹{s.price}</td>
+                          <td>
+                            <span className={`badge badge-xs ${s.change_percent >= 0 ? 'badge-success' : 'badge-error'}`}>
+                              {s.change_percent >= 0 ? '+' : ''}{s.change_percent?.toFixed(2)}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────── */}
+      <section className="w-full py-20 px-4 bg-base-100 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-base-content mb-4">
+            Ready to forecast your next trade?
+          </h2>
+          <p className="text-base-content/50 mb-8 text-sm">
+            Sign up for free and run your first prediction in under a minute.
+          </p>
+          <Link
+            to="/register"
+            className="btn btn-lg text-white border-none hover:opacity-90 shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #06b6d4, #6366f1)' }}
+          >
+            Get Started — It's Free
+          </Link>
+        </div>
+      </section>
+
     </div>
-  </form>
+  )
+}
 
-  {/* RESULT SECTION */}
-  <div className="w-full max-w-6xl mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-
-    {topglobal && (
-      <div className="bg-gray-400 text-white p-4 rounded min-h-96">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-          Top {number} Most Active Stocks (Global)
-        </h1>
-
-        {error && <p className="text-red-600">{error}</p>}
-
-        <ul className="text-gray-900 space-y-2 overflow-y-auto max-h-96">
-          {topstock.map((stock, index) => (
-            <li key={index} className="bg-white rounded p-2">
-              <b>{index + 1}. {stock.symbol}</b> — {stock.name}
-              <div>Price: {stock.price}</div>
-              <div>Change: {stock.change_percent?.toFixed(2)}%</div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-
-    {topind && (
-      <div className="bg-gray-400 text-white p-4 rounded min-h-96">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-          Top {number} Most Active Stocks (India)
-        </h1>
-
-        {error && <p className="text-red-600">{error}</p>}
-
-        <ul className="text-gray-900 space-y-2 overflow-y-auto max-h-96">
-          {indtopstock.map((stock, index) => (
-            <li key={index} className="bg-white rounded p-2">
-              <b>{index + 1}. {stock.symbol}</b> — {stock.name}
-              <div>Price: {stock.price}</div>
-              <div>Change: {stock.change_percent?.toFixed(2)}%</div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-
-  </div>
-</div>
-
-      <div className="p-5 text-center bg-light-dark rounded  mt-5 text-white">
-        TRENDY NEWS <hr />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam qui
-        facilis ut nulla fuga, suscipit quidem saepe magnam eveniet. Nemo
-        dolorem consequatur nisi voluptatem. Ea dolor qui quis commodi unde
-        voluptatum iure sunt dolorum quaerat, veniam iusto nam enim cum
-        cupiditate accusamus laboriosam molestiae, vitae iste quia perspiciatis.
-        Omnis pariatur quidem temporibus reiciendis laudantium exercitationem
-        delectus culpa, consequuntur architecto quas aut quos in impedit quis. A
-        qui maiores quod temporibus dolores quam rerum ratione ipsum, labore
-        dignissimos amet saepe tempora doloribus incidunt quisquam, sequi natus!
-        Exercitationem, officiis? Tempora quasi dolore itaque illo, quaerat sit
-        placeat culpa sed nesciunt totam incidunt nihil officiis fugit. Quod eos
-        mollitia optio excepturi qui consequatur consectetur ex possimus!
-        Aliquam culpa dolorem sunt minus maxime dicta quis, blanditiis
-        perspiciatis quam libero dignissimos corporis vero sit, soluta inventore
-        eum tempora consequatur! Facere ut reiciendis sequi quae, harum
-        recusandae?5
-      </div>
-    </>
-  );
-};
-
-export default Main;
+export default Main
