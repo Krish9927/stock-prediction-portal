@@ -187,3 +187,50 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/django,react
+
+# AI/ML Models (large files - download separately)
+backend-drf/ai_engine/finbert_model/
+backend-drf/ai_engine/huggingface/
+*.h5
+
+# NOTE: stock-prediction-model.keras (~1.4 MB) IS committed to the repo
+# so the project works out-of-the-box without retraining the LSTM.
+# If you retrain and the file grows large, consider Git LFS.
+
+# Accidental / temp files
+,
+*.tmp
+*.bak
+*.swp
+*~
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+
+# IDE / Editor
+.vscode/
+.idea/
+*.code-workspace
+.history/
+
+# Env example files SHOULD be tracked (override the .env ignore above)
+!.env.example
+!**/.env.example
+
+# Python virtual env (local)
+env/
+ENV/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/

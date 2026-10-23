@@ -1,15 +1,22 @@
 from django.urls import path
 from accounts import views as UserViews
-from rest_framework_simplejwt.views import   TokenObtainPairView,  TokenRefreshView
-from .views import StockPredictionAPIView
-from .views import Top10ActiveStocksAPIView
-urlpatterns = [
-    path('register/',UserViews.RegisterView.as_view()),
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import (
+    StockPredictionAPIView,
+    FuturePredictionAPIView,
+    SentimentAnalysisAPIView,
+    Top10ActiveStocksAPIView,
+)
 
+urlpatterns = [
+    path('register/', UserViews.RegisterView.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('protected-view/',UserViews.ProtectedView.as_view()),
-    #prediction
-    path('predict/',StockPredictionAPIView.as_view(),name='stock_prediction'),
+    path('protected-view/', UserViews.ProtectedView.as_view()),
+    # Predictions
+    path('predict/', StockPredictionAPIView.as_view(), name='stock_prediction'),
+    path('predict-future/', FuturePredictionAPIView.as_view(), name='stock_future_prediction'),
+    path('sentiment/<str:ticker>/', SentimentAnalysisAPIView.as_view(), name='stock_sentiment'),
     path("top-stocks/", Top10ActiveStocksAPIView.as_view()),
 ]
+
