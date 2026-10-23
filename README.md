@@ -66,11 +66,7 @@ stock-prediction-portal/
 ├── Resources/
 │   └── stock_predicition_using_LSTM.ipynb  # Model training notebook
 │
-├── run_once.py                       # Downloads FinBERT model locally (run once)
-├── PROJECT_DOCUMENTATION.md          # Full architecture & interview defense guide
-├── ML_AI_EXPLANATION.md              # Hindi+English ML/AI concept explanation
-├── INTERVIEW_QUESTIONS_1000.md       # 1000-question interview prep bank
-├── PROJECT_RESUME.md                 # Resume-style project summary
+├── run_once.py                       # Downloads FinBERT model locally (run once)]
 └── README.md                         # This file
 ```
 
